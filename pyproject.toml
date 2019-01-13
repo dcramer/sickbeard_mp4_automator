@@ -2,8 +2,13 @@
 name = "mp4-automator"
 version = "0.1.0"
 description = ""
+readme = "README.md"
 authors = ["David Cramer <dcramer@gmail.com>"]
 license = "MIT"
+packages = [
+    { include = "ma", from = "src" },
+    { include = "mutagen", from = "src" },
+]
 
 [tool.poetry.dependencies]
 python = "^3.6"
@@ -32,6 +37,11 @@ stevedore = "~1.19.1"
 subliminal = "~1.1.1"
 
 [tool.poetry.dev-dependencies]
+Black = {version = "^18.3-alpha.0",allows-prereleases = true}
+flake8 = "^3.6"
+
+[tool.poetry.scripts]
+mp4-automator = 'ma.manual:main'
 
 [build-system]
 requires = ["poetry>=0.12"]

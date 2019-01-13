@@ -1,3 +1,26 @@
 {
-    "python.pythonPath": "/Users/dcramer/Development/zeus/.venv/bin/python"
+    "files.exclude": {
+        "**/*.pyc": true,
+        "build": true,
+        "*.log": true,
+        ".venv": true,
+        "dist": true,
+    },
+    "files.trimTrailingWhitespace": false,
+    "files.trimFinalNewlines": false,
+    "files.insertFinalNewline": true,
+
+    "[python]": {
+        "editor.detectIndentation": false,
+        "editor.tabSize": 4,
+        "editor.formatOnSave": true
+    },
+
+    "python.linting.pylintEnabled": false,
+    "python.linting.flake8Enabled": true,
+    "python.formatting.provider": "black",
+    "python.pythonPath": ".venv/bin/python",
+    "python.unitTest.pyTestEnabled": false,
+    "python.unitTest.unittestEnabled": false,
+    "python.unitTest.nosetestsEnabled": false
 }

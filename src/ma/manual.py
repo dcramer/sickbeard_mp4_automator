@@ -407,7 +407,6 @@ def main():
 
     # Setup the silent mode
     silent = args["auto"]
-    tag = True
 
     print("%sbit Python." % (struct.calcsize("P") * 8))
 

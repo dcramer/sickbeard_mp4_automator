@@ -801,7 +801,7 @@ class MkvtoMp4:
                     # Support for older versions of subliminal
                     subliminal.save_subtitles(subtitles)
                     self.log.info("Please update to the latest version of subliminal.")
-            except Exception as e:
+            except Exception:
                 self.log.info("Unable to download subtitles.", exc_info=True)
                 self.log.debug("Unable to download subtitles.", exc_info=True)
         # External subtitle import

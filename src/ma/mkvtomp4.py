@@ -755,7 +755,7 @@ class MkvtoMp4:
                             os.chmod(
                                 outputfile, self.permissions
                             )  # Set permissions of newly created file
-                        except:
+                        except Exception:
                             self.log.exception("Unable to set new file permissions.")
 
         # Attempt to download subtitles if they are missing using subliminal
@@ -977,8 +977,9 @@ class MkvtoMp4:
                 if reportProgress:
                     sys.stdout.write("\r")
                     sys.stdout.write(
-                        "[{0}] {1}%".format(
-                            "#" * (timecode / 10) + " " * (10 - (timecode / 10)),
+                        "[{} {}] {}%".format(
+                            "#" * int((timecode / 10)),
+                            " " * int((10 - (timecode / 10))),
                             timecode,
                         )
                     )

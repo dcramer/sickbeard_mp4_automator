@@ -324,6 +324,7 @@ def walkDir(dir, silent=False, preserveRelative=False, tvdbid=None, tag=True):
                         tagdata = None
                     processFile(filepath, tagdata, relativePath=relative)
             except Exception as e:
+                log.exception(str(e))
                 print(
                     "An unexpected error occurred, processing of this file has failed"
                 )

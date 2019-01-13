@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 
+try:
+    import sentry_sdk
+except ImportError:
+    sentry_sdk.init()
+
 import sys
 import os
 import guessit

@@ -1,0 +1,38 @@
+[tool.poetry]
+name = "mp4-automator"
+version = "0.1.0"
+description = ""
+authors = ["David Cramer <dcramer@gmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.6"
+appdirs = "~1.4.3"
+asn1crypto = "~0.24.0"
+babelfish = "~0.5.5"
+beautifulsoup4 = "~4.6.0"
+certifi = "^2018.11"
+cffi = "~1.11.5"
+chardet = "~3.0.4"
+click = "~6.7"
+cryptography = "~2.2.2"
+deluge-client = "~1.6.0"
+"dogpile.cache" = "~0.6.5"
+sentry-sdk = "^0.6.6"
+guessit = "~1.0.3"
+enzyme = "~0.4.1"
+idna = "~2.6"
+pysrt = "^1.1"
+qtfaststart = "^1.8"
+rarfile = "^3.0"
+rebulk = "^1.0"
+requests = "^2.21"
+requests-cache = "^0.4.13"
+stevedore = "~1.19.1"
+subliminal = "~1.1.1"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"

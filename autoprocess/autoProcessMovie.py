@@ -107,7 +107,7 @@ def process(dirName, settings, nzbName=None, status=0, logger=None):
             imdbid = nzbName1[a:b]
 
             log.debug("Attempt to determine IMDBID resulted in '%s'." % imdbid)
-        except:
+        except Exception:
             log.exception("Unable to determine release IMDB ID for requeueing.")
             sys.exit()
 

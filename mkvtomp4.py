@@ -193,7 +193,8 @@ class MkvtoMp4:
                     self.log.info(json.dumps(options, sort_keys=False, indent=4))
                 else:
                     self.log.debug(json.dumps(options, sort_keys=False, indent=4))
-            except:
+            except Exception:
+                raise
                 self.log.exception("Unable to log options.")
 
             outputfile, inputfile = self.convert(inputfile, options, reportProgress)
@@ -307,7 +308,8 @@ class MkvtoMp4:
 
         try:
             vbr = self.estimateVideoBitrate(info)
-        except:
+        except Exception:
+            raise
             vbr = info.format.bitrate / 1000
 
         if info.video.codec.lower() in self.video_codec:
@@ -449,7 +451,7 @@ class MkvtoMp4:
                         self.log.debug("Attempting to set bitrate based on source stream bitrate.")
                         try:
                             abitrate = a.bitrate / 1000
-                        except:
+                        except Exception:
                             self.log.warning("Unable to determine audio bitrate from source stream %s, defaulting to 256 per channel." % a.index)
                             abitrate = a.audio_channels * 256
                     afilter = self.audio_filter
@@ -507,7 +509,7 @@ class MkvtoMp4:
                     try:
                         blocked_audio_languages.append(a.metadata['language'].lower())
                         self.log.debug("Removing language from whitelist to prevent multiple tracks of the same: %s." % a.metadata['language'])
-                    except:
+                    except Exception:
                         self.log.error("Unable to remove language %s from whitelist." % a.metadata['language'])
 
         # Subtitle streams
@@ -557,7 +559,7 @@ class MkvtoMp4:
 
                         try:
                             extension = subtitle_codec_extensions[codec]
-                        except:
+                        except Exception:
                             self.log.info("Wasn't able to determine subtitle file extension, defaulting to '.srt'.")
                             extension = 'srt'
 
@@ -579,7 +581,7 @@ class MkvtoMp4:
                                     pass
 
                             self.log.info("%s created." % outputfile)
-                        except:
+                        except Exception:
                             self.log.exception("Unabled to create external subtitle file for stream %s." % (s.index))
                         
                         try:
@@ -598,7 +600,7 @@ class MkvtoMp4:
             else:
                 self.downloadsubs = False
                 self.log.error("No valid subtitle language specified, cannot download subtitles.")
-        except:
+        except Exception:
             self.log.exception("Unable to verify subtitle languages for download.")
             self.downloadsubs = False
 
@@ -609,7 +611,7 @@ class MkvtoMp4:
             # Attempt to set the dogpile cache
             try:
                 subliminal.region.configure('dogpile.cache.memory')
-            except:
+            except Exception:
                 pass
 
             try:
@@ -617,7 +619,7 @@ class MkvtoMp4:
                 subtitles = subliminal.download_best_subtitles([video], languages, hearing_impaired=False, providers=self.subproviders)
                 try:
                     subliminal.save_subtitles(video, subtitles[video])
-                except:
+                except Exception:
                     # Support for older versions of subliminal
                     subliminal.save_subtitles(subtitles)
                     self.log.info("Please update to the latest version of subliminal.")
@@ -639,7 +641,7 @@ class MkvtoMp4:
                             try:
                                 babel = Language.fromalpha2(lang)
                                 lang = babel.alpha3
-                            except:
+                            except Exception:
                                 pass
                         # If subtitle file name and input video name are the same, proceed
                         if x == filename:
@@ -726,7 +728,7 @@ class MkvtoMp4:
         output_dir = input_dir if self.output_dir is None else self.output_dir
         try:
             outputfile = os.path.join(output_dir.decode(sys.getfilesystemencoding()), filename.decode(sys.getfilesystemencoding()) + "." + self.output_extension).encode(sys.getfilesystemencoding())
-        except:
+        except Exception:
             outputfile = os.path.join(output_dir, filename + "." + self.output_extension)
         self.log.debug("Input directory: %s." % input_dir)
         self.log.debug("File name: %s." % filename)
@@ -740,7 +742,7 @@ class MkvtoMp4:
                 os.rename(inputfile, inputfile + ".original")
                 inputfile = inputfile + ".original"
                 self.log.debug("Renaming original file to %s." % inputfile)
-            except:
+            except Exception:
                 i = 2
                 while os.path.isfile(outputfile):
                     outputfile = os.path.join(output_dir, filename + "(" + str(i) + ")." + self.output_extension)
@@ -760,7 +762,7 @@ class MkvtoMp4:
 
             try:
                 os.chmod(outputfile, self.permissions)  # Set permissions of newly created file
-            except:
+            except Exception:
                 self.log.exception("Unable to set new file permissions.")
 
         except FFMpegConvertError as e:
@@ -794,7 +796,7 @@ class MkvtoMp4:
 
             try:
                 outputfile = inputfile.decode(sys.getfilesystemencoding()) + temp_ext
-            except:
+            except Exception:
                 outputfile = inputfile + temp_ext
 
             # Clear out the temp file if it exists
@@ -805,7 +807,7 @@ class MkvtoMp4:
                 processor.process(inputfile, outputfile)
                 try:
                     os.chmod(outputfile, self.permissions)
-                except:
+                except Exception:
                     self.log.exception("Unable to set file permissions.")
                 # Cleanup
                 if self.removeFile(inputfile, replacement=outputfile):
@@ -839,7 +841,7 @@ class MkvtoMp4:
                             self.removeFile(inputfile, 0, 0)
                         try:
                             shutil.copy(inputfile.decode(sys.getfilesystemencoding()), d)
-                        except:
+                        except Exception:
                             shutil.copy(inputfile, d)
                         self.log.info("%s copied to %s." % (inputfile, d))
                         files.append(os.path.join(d, os.path.split(inputfile)[1]))
@@ -875,7 +877,7 @@ class MkvtoMp4:
             try:
                 # Make sure file isn't read-only
                 os.chmod(filename, int("0777", 8))
-            except:
+            except Exception:
                 self.log.debug("Unable to set file permissions before deletion. This is not always required.")
             try:
                 if os.path.exists(filename):
@@ -885,7 +887,7 @@ class MkvtoMp4:
                     os.rename(replacement, filename)
                     filename = replacement
                 break
-            except:
+            except Exception:
                 self.log.exception("Unable to remove or replace file %s." % filename)
                 if delay > 0:
                     self.log.debug("Delaying for %s seconds before retrying." % delay)

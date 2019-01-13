@@ -68,7 +68,7 @@ def getValue(prompt, num=False):
         value = value.replace('\\', '')
     try:
         value = value.decode(sys.stdout.encoding)
-    except:
+    except Exception:
         pass
     if num is True and value.isdigit() is False:
         print("Must be a numerical value")
@@ -174,11 +174,11 @@ def tvdbInfo(guessData, tvdbid=None):
     try:
         tvdbid = str(tvdbid) if tvdbid else t[fullseries]['id']
         series = t[int(tvdbid)]['seriesname']
-    except:
+    except Exception:
         tvdbid = t[series]['id']
     try:
         print("Matched TV episode as %s (TVDB ID:%d) S%02dE%02d" % (series.encode(sys.stdout.encoding, errors='ignore'), int(tvdbid), int(season), int(episode)))
-    except:
+    except Exception:
         print("Matched TV episode")
     return 3, tvdbid, season, episode
 
@@ -194,14 +194,14 @@ def processFile(inputfile, tagdata, relativePath=None):
         tagmp4 = tmdb_mp4(imdbid, language=settings.taglanguage, logger=log)
         try:
             print("Processing %s" % (tagmp4.title.encode(sys.stdout.encoding, errors='ignore')))
-        except:
+        except Exception:
             print("Processing movie")
     elif tagdata[0] is 2:
         tmdbid = tagdata[1]
         tagmp4 = tmdb_mp4(tmdbid, True, language=settings.taglanguage, logger=log)
         try:
             print("Processing %s" % (tagmp4.title.encode(sys.stdout.encoding, errors='ignore')))
-        except:
+        except Exception:
             print("Processing movie")
     elif tagdata[0] is 3:
         tvdbid = int(tagdata[1])
@@ -210,7 +210,7 @@ def processFile(inputfile, tagdata, relativePath=None):
         tagmp4 = Tvdb_mp4(tvdbid, season, episode, language=settings.taglanguage, logger=log)
         try:
             print("Processing %s Season %02d Episode %02d - %s" % (tagmp4.show.encode(sys.stdout.encoding, errors='ignore'), int(tagmp4.season), int(tagmp4.episode), tagmp4.title.encode(sys.stdout.encoding, errors='ignore')))
-        except:
+        except Exception:
             print("Processing TV episode")
 
     # Process
@@ -249,10 +249,10 @@ def walkDir(dir, silent=False, preserveRelative=False, tvdbid=None, tag=True):
                 if MkvtoMp4(settings, logger=log).validSource(filepath):
                     try:
                         print("Processing file %s" % (filepath.encode(sys.stdout.encoding, errors='ignore')))
-                    except:
+                    except Exception:
                         try:
                             print("Processing file %s" % (filepath.encode('utf-8', errors='ignore')))
-                        except:
+                        except Exception:
                             print("Processing file")
                     if tag:
                         tagdata = getinfo(filepath, silent, tvdbid=tvdbid)
@@ -331,7 +331,7 @@ def main():
         path = (str(args['input']))
         try:
             path = glob.glob(path)[0]
-        except:
+        except Exception:
             pass
     else:
         path = getValue("Enter path to file")
@@ -360,10 +360,7 @@ def main():
             tagdata = getinfo(path, silent=silent, tvdbid=tvdbid)
         processFile(path, tagdata)
     else:
-        try:
-            print("File %s is not in the correct format" % (path))
-        except:
-            print("File is not in the correct format")
+        print("File %s is not in the correct format" % (path,))
 
 
 if __name__ == '__main__':

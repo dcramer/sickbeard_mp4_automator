@@ -133,14 +133,14 @@ class MediaStreamInfo(object):
     def parse_float(val, default=0.0):
         try:
             return float(val)
-        except:
+        except Exception:
             return default
 
     @staticmethod
     def parse_int(val, default=0):
         try:
             return int(val)
-        except:
+        except Exception:
             return default
 
     def parse_ffprobe(self, key, val):
@@ -373,8 +373,9 @@ class FFMpeg(object):
             for cmd in cmds:
                 clean_cmds.append(str(cmd))
             cmds = clean_cmds
-        except:
+        except Exception:
             logger.exception("There was an error making all command line parameters a string")
+            raise
         logger.debug('Spawning ffmpeg with command: ' + ' '.join(cmds))
         return Popen(cmds, shell=False, stdin=PIPE, stdout=PIPE, stderr=PIPE,
                      close_fds=(os.name != 'nt'), startupinfo=None)
@@ -503,7 +504,7 @@ class FFMpeg(object):
             except UnicodeDecodeError:
                 try:
                     ret = ret.decode(console_encoding, errors="ignore")
-                except:
+                except Exception:
                     pass
 
             total_output += ret

@@ -31,7 +31,7 @@ class BaseCodec(object):
                 typ = self.encoder_options[k]
                 try:
                     safe[k] = typ(v)
-                except:
+                except Exception:
                     pass
         return safe
 

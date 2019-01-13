@@ -23,7 +23,7 @@ class PostProcess(Plugin):
 
         try:
             imdbid = group['library']['identifier']
-        except:
+        except Exception:
             imdbid = group['identifier']
 
         moviefile = group['renamed_files']
@@ -42,7 +42,7 @@ class PostProcess(Plugin):
                 log.info(output)
                 log.info(errors)
                 log.info("Return code: %s" % process.returncode)
-            except:
+            except Exception:
                 log.error("Failed to execute post processing on file %s" % inputfile)
                 log.error(traceback.format_exc())
                 success = False

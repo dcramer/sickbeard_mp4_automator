@@ -312,7 +312,8 @@ class MkvtoMp4:
         total_bitrate = info.format.bitrate
         audio_bitrate = 0
         for a in info.audio:
-            audio_bitrate += a.bitrate
+            if a.bitrate:
+                audio_bitrate += a.bitrate
 
         self.log.debug("Total bitrate is %s." % info.format.bitrate)
         self.log.debug("Total audio bitrate is %s." % audio_bitrate)

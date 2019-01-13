@@ -984,7 +984,8 @@ class MkvtoMp4:
                         )
                     )
                     sys.stdout.flush()
-
+            if reportProgress:
+                sys.stdout.write("\r")
             self.log.info("%s created." % outputfile)
 
             try:

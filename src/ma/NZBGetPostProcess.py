@@ -42,8 +42,6 @@
 
 import os
 import sys
-import re
-import json
 import traceback
 
 # Sanity checks for path string
@@ -94,7 +92,7 @@ if os.name == "nt":
 elif not os.path.isdir(logpath):
     try:
         os.mkdir(logpath)
-    except:
+    except Exception:
         logpath = MP4folder
 configPath = os.path.abspath(os.path.join(MP4folder, "logging.ini")).replace(
     "\\", "\\\\"
